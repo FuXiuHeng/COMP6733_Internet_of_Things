@@ -60,7 +60,7 @@ RESOURCE(res_led_red,
 
 static struct ctimer led_red_ctimer;
 int led_red_state = TOGGLE_OFF;
-int led_sampling_freq = 1; // in Hz
+int led_red_sampling_freq = 1; // in Hz
 
 /* Helper Functions */
 void toggle_red_led() {
@@ -73,7 +73,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 {
 	if (led_red_state == TOGGLE_OFF) {
 		led_red_state = TOGGLE_ON;
-		ctimer_set(&led_red_ctimer, CLOCK_SECOND / led_sampling_freq , toggle_red_led, NULL);
+		ctimer_set(&led_red_ctimer, CLOCK_SECOND / led_red_sampling_freq , toggle_red_led, NULL);
 	} else {
 		led_red_state = TOGGLE_OFF;
 		ctimer_stop(&led_red_ctimer);
