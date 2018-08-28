@@ -9,7 +9,7 @@
 
 static void res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-PERIODIC_RESOURCE(res_motion,
+RESOURCE(res_motion,
          "title=\"Motion\";rt=\"Temperature\";obs",
          res_get_handler,
          NULL,
