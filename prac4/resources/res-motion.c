@@ -24,12 +24,15 @@ static void
 res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
 	SENSORS_ACTIVATE(mpu_9250_sensor);
-	printf("Hello Motion Sensor\n");
-	printf("Hello Motion Sensor\n");
-	printf("Hello Motion Sensor\n");
-	printf("Hello Motion Sensor\n");
-	printf("Hello Motion Sensor\n");
-	printf(mpu_9250_sensor.value(MPU_9250_SENSOR_TYPE_GYRO_X));
+	printf("Hello Motion Sensor\r\n");
+	printf("Hello Motion Sensor\r\n");
+	printf("Hello Motion Sensor\r\n");
+	printf("Hello Motion Sensor\r\n");
+	printf("Hello Motion Sensor\r\n");
+
+	int x = mpu_9250_sensor.value(MPU_9250_SENSOR_TYPE_GYRO_X);
+
+	printf("X value is %d\r\n", x);
 	printf("\n\n\n\n");
 }
 
