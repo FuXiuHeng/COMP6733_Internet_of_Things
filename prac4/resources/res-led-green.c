@@ -64,7 +64,7 @@ int led_sampling_freq = 1; // in Hz
 
 /* Helper Functions */
 void toggle_led() {
-	ctimer_reset(&led_ctimer);
+	ctimer_reset(&led_green_ctimer);
 	leds_toggle(LEDS_GREEN);
 }
 
