@@ -23,22 +23,27 @@ RESOURCE(res_motion,
 static void
 res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
-	SENSORS_ACTIVATE(mpu_9250_sensor);
 	printf("Hello Motion Sensor\r\n");
 	printf("Hello Motion Sensor\r\n");
 	printf("Hello Motion Sensor\r\n");
 	printf("Hello Motion Sensor\r\n");
 	printf("Hello Motion Sensor\r\n");
 
+	SENSORS_ACTIVATE(mpu_9250_sensor);
+	for (int i = 0; i < 100; i ++);
 	int x = mpu_9250_sensor.value(MPU_9250_SENSOR_TYPE_GYRO_X);
+
+	SENSORS_ACTIVATE(mpu_9250_sensor);
+	for (int i = 0; i < 100; i ++);
 	int y = mpu_9250_sensor.value(MPU_9250_SENSOR_TYPE_GYRO_Y);
+
+	SENSORS_ACTIVATE(mpu_9250_sensor);
+	for (int i = 0; i < 100; i ++);
 	int z = mpu_9250_sensor.value(MPU_9250_SENSOR_TYPE_GYRO_Z);
-	int a = mpu_9250_sensor.value(MPU_9250_SENSOR_TYPE_GYRO_ALL);
 
 	printf("X value is %d\r\n", x);
 	printf("Y value is %d\r\n", y);
 	printf("Z value is %d\r\n", z);
-	printf("A value is %d\r\n", a);
 	printf("\n\n\n\n");
 }
 
