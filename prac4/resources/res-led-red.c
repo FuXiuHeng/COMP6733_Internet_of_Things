@@ -45,6 +45,9 @@
 #include "rest-engine.h"
 #include "dev/leds.h"
 
+#define TOGGLE_OFF 0
+#define TOGGLE_ON 1
+
 static void res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
 /* A simple actuator example. Toggles the red led */
@@ -55,9 +58,25 @@ RESOURCE(res_led_red,
          NULL,
          NULL);
 
+static struct ctimer led_red_ctimer;
+int led_red_state = TOGGLE_OFF;
+int led_sampling_freq = 1; // in Hz
+
+/* Helper Functions */
+void toggle_led() {
+	ctimer_reset(&led_red_ctimer);
+	leds_toggle(LEDS_RED);
+}
+
 static void
 res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
-  leds_toggle(LEDS_RED);
+	if (led_red_state == TOGGLE_OFF) {
+		led_red_state = TOGGLE_ON;
+		ctimer_set(&led_red_ctimer, CLOCK_SECOND / led_sampling_freq , toggle_led, NULL);
+	} else {
+		led_red_state = TOGGLE_OFF;
+		ctimer_stop(&led_red_ctimer);
+  	}
 }
 #endif /* PLATFORM_HAS_LEDS */
