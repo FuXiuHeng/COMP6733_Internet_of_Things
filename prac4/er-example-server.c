@@ -41,6 +41,10 @@
 #include <string.h>
 #include "contiki.h"
 #include "contiki-net.h"
+#include "sys/cc.h"
+#include "dev/serial-line.h"
+#include "dev/cc26xx-uart.h"
+#include "board-peripherals.h"
 #include "rest-engine.h"
 
 #if PLATFORM_HAS_BUTTON
