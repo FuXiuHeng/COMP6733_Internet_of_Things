@@ -97,6 +97,7 @@ PROCESS(gyro_test, "Test");
 PROCESS(er_example_server, "Erbium Example Server");
 AUTOSTART_PROCESSES(&er_example_server, &gyro_test);
 
+static struct ctimer gyro_ctimer;
 int gyro_count = 0;
 int gyro_samples = 5;
 int gyro_sampling_freq = 1;
