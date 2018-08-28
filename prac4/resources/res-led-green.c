@@ -63,7 +63,7 @@ int led_green_state = TOGGLE_OFF;
 int led_sampling_freq = 1; // in Hz
 
 /* Helper Functions */
-void toggle_led() {
+void toggle_green_led() {
 	ctimer_reset(&led_green_ctimer);
 	leds_toggle(LEDS_GREEN);
 }
@@ -73,7 +73,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 {
 	if (led_green_state == TOGGLE_OFF) {
 		led_green_state = TOGGLE_ON;
-		ctimer_set(&led_green_ctimer, CLOCK_SECOND / led_sampling_freq , toggle_led, NULL);
+		ctimer_set(&led_green_ctimer, CLOCK_SECOND / led_sampling_freq , toggle_green_led, NULL);
 	} else {
 		led_green_state = TOGGLE_OFF;
 		ctimer_stop(&led_green_ctimer);
