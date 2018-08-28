@@ -75,8 +75,7 @@ extern resource_t
   res_push,
   res_event,
   res_sub,
-  res_b1_sep_b2,
-  res_motion;
+  res_b1_sep_b2;
 #if PLATFORM_HAS_LEDS
 extern resource_t 
   res_leds, 
@@ -173,7 +172,7 @@ PROCESS_THREAD(er_example_server, ev, data)
    */
   rest_activate_resource(&res_hello, "test/hello");
   rest_activate_resource(&res_push, "test/push");
-  rest_activate_resource(&res_motion, "gyroscrope/x");
+  // rest_activate_resource(&res_motion, "gyroscrope/x");
 #if PLATFORM_HAS_LEDS
   rest_activate_resource(&res_toggle, "actuators/toggle");
   rest_activate_resource(&res_led_red, "led/red/toggle");
