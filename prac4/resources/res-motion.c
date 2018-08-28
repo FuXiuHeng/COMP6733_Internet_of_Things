@@ -25,14 +25,6 @@ int gyro_count = 0;
 int gyro_samples = 5;
 int gyro_sampling_freq = 1;
 
-static void
-res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
-{
-	printf("Starting process for Motion Sensor\r\n");
-	SENSORS_ACTIVATE(mpu_9250_sensor);
-	ctimer_set(&gyro_ctimer, CLOCK_SECOND / gyro_sampling_freq, read_gyro, NULL);
-}
-
 static void 
 read_gyro()
 {
@@ -46,4 +38,12 @@ read_gyro()
 	int x = mpu_9250_sensor.value(MPU_9250_SENSOR_TYPE_GYRO_X);
 	printf("Gyroscrope value for X is: %d\r\n", x);
 	SENSORS_ACTIVATE(mpu_9250_sensor);
+}
+
+static void
+res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
+{
+	printf("Starting process for Motion Sensor\r\n");
+	SENSORS_ACTIVATE(mpu_9250_sensor);
+	ctimer_set(&gyro_ctimer, CLOCK_SECOND / gyro_sampling_freq, read_gyro, NULL);
 }
