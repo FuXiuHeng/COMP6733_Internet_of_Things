@@ -76,6 +76,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 		ctimer_set(&led_green_ctimer, CLOCK_SECOND / led_green_sampling_freq , toggle_green_led, NULL);
 	} else {
 		led_green_state = TOGGLE_OFF;
+		leds_off(LEDS_GREEN);
 		ctimer_stop(&led_green_ctimer);
   	}
 }
