@@ -93,9 +93,50 @@ extern resource_t res_battery;
 extern resource_t res_temperature;
 #endif
 
-
+PROCESS(gyro_test, "Test");
 PROCESS(er_example_server, "Erbium Example Server");
-AUTOSTART_PROCESSES(&er_example_server);
+AUTOSTART_PROCESSES(&er_example_server, &gyro_test);
+
+int gyro_count = 0;
+int gyro_samples = 5;
+int gyro_sampling_freq = 1;
+
+static void 
+read_gyro()
+{
+    if (gyro_count >= gyro_samples) {
+        gyro_count = 0;
+        ctimer_stop(&gyro_ctimer);
+        return;
+    }
+    gyro_count++;
+
+    int x = mpu_9250_sensor.value(MPU_9250_SENSOR_TYPE_GYRO_X);
+    printf("Gyroscrope value for X is: %d\r\n", x);
+    SENSORS_ACTIVATE(mpu_9250_sensor);
+    ctimer_reset(&gyro_ctimer);
+}
+
+PROCESS_THREAD(gyro_test, ev, data) 
+{
+    PROCESS_BEGIN();
+    printf("Gyro Test\r\n");
+
+    while (1) {
+
+        // Setting the timer for MPU
+        SENSORS_ACTIVATE(mpu_9250_sensor);
+        ctimer_set(&gyro_ctimer, CLOCK_SECOND / gyro_sampling_freq, read_gyro, NULL);
+
+        // Waiting for an event
+        printf("in while loop\r\n");
+        PROCESS_WAIT_EVENT();
+        printf("in while loop: got event\r\n");
+
+    }
+
+    PROCESS_END();
+}
 
 PROCESS_THREAD(er_example_server, ev, data)
 {
