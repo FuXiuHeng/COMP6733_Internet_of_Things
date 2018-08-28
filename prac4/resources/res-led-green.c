@@ -60,7 +60,7 @@ RESOURCE(res_led_green,
 
 static struct ctimer led_green_ctimer;
 int led_green_state = TOGGLE_OFF;
-int led_sampling_freq = 1 // in Hz
+int led_sampling_freq = 1; // in Hz
 
 /* Helper Functions */
 void toggle_led() {
