@@ -31,6 +31,7 @@ read_gyro()
 	gyro_count++;
 
 	if (gyro_count >= gyro_samples) {
+		gyro_count = 0;
 		ctimer_stop(&gyro_ctimer);
 		return;
 	}
