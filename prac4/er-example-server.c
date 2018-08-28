@@ -126,17 +126,20 @@ PROCESS_THREAD(gyro_test, ev, data)
     PROCESS_BEGIN();
     printf("Gyro Test\r\n");
 
+    SENSORS_ACTIVATE(mpu_9250_sensor);
+    ctimer_set(&gyro_ctimer, CLOCK_SECOND / gyro_sampling_freq, read_gyro, NULL);
+
+
     while (1) {
+        if(ev == sensors_event && data == &mpu_9250_sensor) {
+            // Setting the timer for MPU
 
-        // Setting the timer for MPU
-        SENSORS_ACTIVATE(mpu_9250_sensor);
-        ctimer_set(&gyro_ctimer, CLOCK_SECOND / gyro_sampling_freq, read_gyro, NULL);
+            // Waiting for an event
+            printf("in while loop\r\n");
+            PROCESS_WAIT_EVENT();
+            printf("in while loop: got event\r\n");
 
-        // Waiting for an event
-        printf("in while loop\r\n");
-        PROCESS_WAIT_EVENT();
-        printf("in while loop: got event\r\n");
-
+        }
     }
 
     PROCESS_END();
