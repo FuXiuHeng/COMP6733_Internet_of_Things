@@ -89,7 +89,8 @@ def tune_decision_tree(data, target, rseed=42, verbose=1):
     # You should complete this function
     parameters = {
     	'max_depth': [1, 10, 100],
-    	'max_features': ['auto', 1, 3, 30]
+        # 'max_features': ['auto', 1, 3, 30]
+        'max_features': ['auto', 1]
 
     }
     classifier = DecisionTreeClassifier(random_state=rseed)
@@ -108,7 +109,8 @@ def tune_random_forest(data, target, rseed=42, verbose=1):
     # You should complete this function
     parameters = {
     	'max_depth': [1, 10, 100],
-    	'max_features': ['auto', 1, 3, 30],
+    	# 'max_features': ['auto', 1, 3, 30],
+        'max_features': ['auto', 1],
     	'n_estimators': [2, 10, 100]
     }
     classifier = RandomForestClassifier(random_state=rseed)

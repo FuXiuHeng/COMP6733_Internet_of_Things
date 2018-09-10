@@ -15,6 +15,7 @@
 #include "ieee-addr.h"
 #include "buzzer.h"
 #include "board-peripherals.h"
+#include "cfs/cfs.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,21 +39,12 @@ int optic_sample_count = 0;
 void optic_samples() {
 
 	if (optic_sample_count < optic_total_samples) {
-
-		// int optic_val = opt_3001_sensor.value(1);
-		// printf("%d. Light = %d.%02d\r\n", optic_sample_count, optic_val / 100, optic_val % 100);
-
 		optic_sample_count++;
 		SENSORS_ACTIVATE(opt_3001_sensor);
-
 	} else {
-
 		optic_sample_count = 0;
 		ctimer_stop(&optic_ctimer);
-
 	}
-
-
 }
 
 /* Processes Code*/
@@ -69,13 +61,32 @@ PROCESS_THREAD(procKeys, ev, data) {
        		printf("received line: %s\n\r", (char *)data);
 
        		if (strcmp(data, "l") == 0) {
-       			printf("Starting collection of 600 samples from light sensort at 10Hz\r\n");
-				ctimer_set(&optic_ctimer, CLOCK_SECOND * optic_sampling_freq, optic_samples, NULL);
-       		}
+
+       			// Start collecting optic samples
+    				printf("Starting collection of 600 samples from light sensort at 10Hz\r\n");
+    				ctimer_set(&optic_ctimer, CLOCK_SECOND * optic_sampling_freq, optic_samples, NULL);
+         		}
        		
      	} else if (ev == sensors_event && data == &opt_3001_sensor) {
+
+     		// Collecting data 
      		int optic_val = opt_3001_sensor.value(0);
-			printf("%d. Light = %d.%02d\r\n", optic_sample_count, optic_val / 100, optic_val % 100);
+
+     		// Printing data
+   			char optic_data_str[10];
+   			sprintf(optic_data_str, "%d.%02d", optic_val / 100, optic_val % 100);
+   			// printf("%d. Light = %s\r\n", optic_sample_count, optic_data_str);
+        printf("%s,\t", optic_data_str);
+
+   			// // Writing data to file
+   			// char *filename = "light_sample.csv";
+   			// int fd_write = cfs_open(filename, CFS_WRITE | CFS_APPEND);
+   			// if (fd_write != -1) {
+   			// 	int n = cfs_write(fd_write, optic_data_str, sizeof(optic_data_str));
+   			// 	int m = cfs_write(fd_write, "\t", sizeof("\t"));
+   			// 	cfs_close(fd_write);
+   			// }
+
 			ctimer_reset(&optic_ctimer);
 
      	}
